@@ -1,0 +1,49 @@
+import tkinter as tk
+import math
+
+def on_button_click(event):
+    current_text = entry.get()
+    button_text = event.widget.cget("text")
+
+    if button_text == "=":
+        try:
+            result = eval(current_text)
+            entry.delete(0, tk.END)
+            entry.insert(tk.END, str(result))
+        except Exception as e:
+            entry.delete(0, tk.END)
+            entry.insert(tk.END, "Error")
+    elif button_text == "C":
+        entry.delete(0, tk.END)
+    elif button_text == "√":
+        entry.delete(0, tk.END)
+        entry.insert(tk.END, "sqrt(")
+    else:
+        entry.insert(tk.END, button_text)
+
+root = tk.Tk()
+root.title("Calculator")
+root.geometry("250x400")
+root.config(bg="#333333")  # Dark background color
+
+entry = tk.Entry(root, font=("Helvetica", 20), bg="#444444", fg="white")  # Dark entry field
+entry.pack(pady=20, padx=10, fill=tk.BOTH, expand=True)
+
+buttons = [
+    ("7", "8", "9", "/"),
+    ("4", "5", "6", "*"),
+    ("1", "2", "3", "-"),
+    ("0", ".", "C", "+"),
+    ("√", "=")  # Adding square root and "=" buttons
+]
+
+for row in buttons:
+    button_row = tk.Frame(root)
+    button_row.pack(fill=tk.BOTH, expand=True)
+    for button_text in row:
+        button = tk.Button(button_row, text=button_text, font=("Helvetica", 18), relief=tk.RIDGE, bg="#666666", fg="white")  # Dark buttons
+        button.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        button.bind("<Button-1>", on_button_click)
+
+root.mainloop()
+
